@@ -1,4 +1,5 @@
 """unused import"""
+from __future__ import print_function
 # pylint: disable=undefined-all-variable, import-error, no-absolute-import, too-few-public-methods, missing-docstring
 import xml.etree  # [unused-import]
 import xml.sax  # [unused-import]
@@ -32,11 +33,13 @@ from pyflakes.test.test_imports import Test as TestImports
 from nose.importer import Importer, add_path, remove_path  # loader.py
 
 # see issue #88
-import analytics
+try:
+    import analytics
+except:
+    pass
 import flask_seasurf
 
 import atexit
-from __future__ import print_function
 from docopt import docopt
 import curses, logging, sqlite3
 import logging
@@ -46,20 +49,32 @@ import time
 import sys
 import signal
 import bs4
-import nonexistendmodule
+try:
+    import nonexistendmodule
+except:
+    pass
 import boto as b, peewee as p
-# import django
-import flask.ext.somext  # # #
-from sqlalchemy import model
+import django
+try:
+    import flask.ext.somext  # # #
+except:
+    pass
+from sqlalchemy import alias
 try:
     import ujson as json
 except ImportError:
     import json
 
 import models
+import azure.functions
+from azure.communication.email import EmailClient
+from sklearn.utils import check_array
 
 
 def main():
     pass
 
-import after_method_is_valid_even_if_not_pep8
+try:
+    import after_method_is_valid_even_if_not_pep8
+except:
+    pass

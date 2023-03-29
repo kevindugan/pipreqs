@@ -43,6 +43,10 @@ def run():
         modules = modules | {link.text for link in module_table[0].findAll("a")}
         version = incrementVersion(version)
 
+    # Veryify that full paths are present in modules list, e.g. if a module
+    # named 'abc.efg.hig' is present, there should be modules 'abc', 'abc.efg', and 'abc.efg.hig'
+    modules = {".".join(module.split(".")[:it+1]) for module in modules for it,_ in enumerate(module.split(".")) }
+
     # Sort the module names without case information
     modules = sorted(list(modules), key=lambda x: x.lower())
 
