@@ -80,7 +80,8 @@ def deduce_project_names(imported_packages):
 
     # Name mapping for oddly-named packages
     aliases = {
-        "sklearn": "scikit-learn"
+        "sklearn": "scikit-learn",
+        "bs4": "beautifulsoup4"
     }
 
     # Collect all packages installed in site-packages location

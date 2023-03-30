@@ -21,7 +21,7 @@ class TestPipreqs(unittest.TestCase):
         self.modules = [
             'flask', 'requests', 'sqlalchemy', 'docopt', 'boto', 'ipython',
             'pyflakes', 'nose', 'analytics', 'flask_seasurf', 'peewee',
-            'ujson', 'nonexistendmodule', 'bs4',
+            'ujson', 'django', 'azure', 'sklearn', 'nonexistendmodule', 'bs4',
             'after_method_is_valid_even_if_not_pep8'
             ]
         self.modules2 = ['beautifulsoup4']
@@ -51,7 +51,7 @@ class TestPipreqs(unittest.TestCase):
 
     def test_get_all_imports(self):
         imports = pipreqs.get_all_imports(self.project)
-        self.assertEqual(len(imports), 15)
+        self.assertEqual(len(imports), len(self.modules))
         for item in imports:
             self.assertTrue(
                 item.lower() in self.modules, "Import is missing: " + item)
@@ -59,7 +59,6 @@ class TestPipreqs(unittest.TestCase):
         self.assertFalse("logging" in imports)
         self.assertFalse("curses" in imports)
         self.assertFalse("__future__" in imports)
-        self.assertFalse("django" in imports)
         self.assertFalse("models" in imports)
 
     def test_deduplicate_dependencies(self):
@@ -83,7 +82,7 @@ class TestPipreqs(unittest.TestCase):
         with_info = pipreqs.get_imports_info(imports)
         # Should contain 10 items without the "nonexistendmodule" and
         # "after_method_is_valid_even_if_not_pep8"
-        self.assertEqual(len(with_info), 13)
+        self.assertEqual(len(with_info), len(self.modules)-2)
         for item in with_info:
             self.assertTrue(
                 item['name'].lower() in self.modules,
@@ -119,7 +118,7 @@ class TestPipreqs(unittest.TestCase):
         assert os.path.exists(self.requirements_path) == 1
         with open(self.requirements_path, "r") as f:
             data = f.read().lower()
-            for item in self.modules[:-3]:
+            for item in self.modules[:-4]:
                 self.assertTrue(item.lower() in data)
         # It should be sorted based on names.
         data = data.strip().split('\n')
@@ -151,7 +150,7 @@ class TestPipreqs(unittest.TestCase):
         assert os.path.exists(self.alt_requirement_path) == 1
         with open(self.alt_requirement_path, "r") as f:
             data = f.read().lower()
-            for item in self.modules[:-3]:
+            for item in self.modules[:-4]:
                 self.assertTrue(item.lower() in data)
             for item in self.modules2:
                 self.assertTrue(item.lower() in data)
@@ -296,7 +295,8 @@ class TestPipreqs(unittest.TestCase):
             )
         with open(self.requirements_path, "r") as f:
             data = f.read().lower()
-            for item in self.modules[:-3]:
+
+            for item in self.modules[:-4]:
                 self.assertTrue(item.lower() in data)
 
     def test_clean_with_imports_to_clean(self):
